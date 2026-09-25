@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Alert | Dinthilang Security Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f17;
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Subtle animated grid background */
+        .bg-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 1;
+        }
+
+        /* Main Glassmorphism Container */
+        .alert-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 520px;
+            background: rgba(18, 24, 38, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(239, 68, 68, 0.15);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: #60a5fa;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .alert-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .alert-description {
+            font-size: 14px;
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Terminal Style Logs */
+        .terminal-box {
+            background: #030712;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #34d399;
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+
+        .terminal-box .text-muted { color: #6b7280; }
+        .terminal-box .text-warn { color: #fbbf24; }
+        .terminal-box .text-danger { color: #f87171; }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-1px);
+        }
+
+        .footer-note {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        /* Revealed Message Modal */
+        .reveal-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .reveal-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <div class="alert-card">
+        <!-- Main Prank Alert Screen -->
+        <div id="prank-screen">
+            <div class="header">
+                <span class="brand">Dinthilang SecOps</span>
+                <div class="status-badge">
+                    <span class="pulse-dot"></span>
+                    Unauthorized Link
+                </div>
+            </div>
+
+            <h1 class="alert-title">Device Flagged</h1>
+            <p class="alert-description">
+                Your connection was routed through a monitored gateway. An active handshake attempt was detected by <strong style="color: #ffffff;">Dinthilang Daimari's Security Lab</strong>.
+            </p>
+
+            <div class="terminal-box">
+                <div><span class="text-muted">[SYS]</span> IP Logged: <span class="text-warn">192.168.1.104</span></div>
+                <div><span class="text-muted">[SEC]</span> Port 443 scan initiated...</div>
+                <div><span class="text-danger">[WARN]</span> Device vulnerability assessment: <span class="text-danger">Pending</span></div>
+            </div>
+
+            <button class="btn" onclick="revealPrank()">Request Safe Passage</button>
+
+            <div class="footer-note">
+                Encrypted Session ID: #8F90-DINTHILANG
+            </div>
+        </div>
+
+        <!-- Revealed Friendly Message -->
+        <div id="reveal-screen" class="reveal-screen">
+            <div style="font-size: 48px; margin-bottom: 12px;">🎉</div>
+            <h1 class="reveal-title">Just Kidding!</h1>
+            <p class="alert-description">
+                You've reached <strong style="color: #ffffff;">Dinthilang Daimari's</strong> portfolio project. No real scan was performed—you're completely safe!
+            </p>
+            <button class="btn" style="background: #374151; box-shadow: none;" onclick="location.reload()">Back to Safety</button>
+        </div>
+    </div>
+
+    <script>
+        function revealPrank() {
+            document.getElementById('prank-screen').style.display = 'none';
+            document.getElementById('reveal-screen').style.display = 'block';
+            document.querySelector('.alert-card').style.borderColor = 'rgba(56, 189, 248, 0.4)';
+            document.querySelector('.alert-card').style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.15)';
+        }
+    </script>
+
+</body>
+</html>
